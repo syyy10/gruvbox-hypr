@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# wallpaper.sh — rofi wallpaper picker for Hyprland
+# ~/.config/hypr/wallpapers and sets with awww
+
+WALLPAPER_DIR="$HOME/.config/hypr/wallpapers"
+CACHE_DIR="$HOME/.cache/wallpaper-picker"
+awww_TRANSITION="--transition-type wipe --transition-angle 30 --transition-duration 0.8"
+
+# ── sanity checks ────────────────────────────────────────────────
+if [ ! -d "$WALLPAPER_DIR" ]; then
+    notify-send "Wallpaper Picker" "Directory not found: $WALLPAPER_DIR"
+    exit 1
+fi
+
+# is awww daemon is running
+if ! pgrep -x awww-daemon > /dev/null; then
+    awww-daemon &
+    sleep 0.5
+fi
+
+# ── build thumbnail cache ────────────────────────────────────────
+mkdir -p "$CACHE_DIR"
+
+for img in "$WALLPAPER_DIR"/*.{jpg,jpeg,png,webp,gif}; do
+    [ -f "$img" ] || continue
+    name="$(basename "$img")"
+    thumb="$CACHE_DIR/$name.thumb.png"
+    if [ ! -f "$thumb" ]; then
+        convert "$img" -thumbnail 500x500^ -gravity center -extent 500x500 "$thumb" 2>/dev/null
+    fi
+done
+
+# ── build rofi entries (name + icon path) ───────────────────────
+entries=""
+for img in "$WALLPAPER_DIR"/*.{jpg,jpeg,png,webp,gif}; do
+    [ -f "$img" ] || continue
+    name="$(basename "$img")"
+    thumb="$CACHE_DIR/$name.thumb.png"
+    [ -f "$thumb" ] || thumb="$img"
+    entries="$entries$name\x00icon\x1f$thumb\n"
+done
+
+if [ -z "$entries" ]; then
+    notify-send "Wallpaper Picker" "No images found in $WALLPAPER_DIR"
+    exit 1
+fi
+
+# ── launch rofi ──────────────────────────────────────────────────
+chosen=$(printf "%b" "$entries" | rofi \
+    -dmenu \
+    -i \
+    -p "Wallpaper" \
+    -show-icons \
+    -theme-str '
+        window { width: 700px; }
+        listview { columns: 4; lines: 3; }
+        element { padding: 8px; }
+        element-icon { size: 120px; }
+        element-text { horizontal-align: 0.5; }
+    ')
+
+[ -z "$chosen" ] && exit 0
+
+# ── apply wallpaper ──────────────────────────────────────────────
+selected="$WALLPAPER_DIR/$chosen"
+
+if [ ! -f "$selected" ]; then
+    notify-send "Wallpaper Picker" "File not found: $selected"
+    exit 1
+fi
+
+awww img "$selected" $awww_TRANSITION
+
+# Persist across reboots — write to a file hyprland.conf can source
+echo "$selected" > "$HOME/.cache/current_wallpaper"
+
+notify-send "Wallpaper" "Set to $chosen" -t 2000

@@ -1,0 +1,6 @@
+#!/bin/sh
+if pgrep -x hyprlock > /dev/null; then
+    exit 0
+fi
+
+hyprlock
