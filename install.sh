@@ -82,6 +82,8 @@ cp rofi/gruvbox-material.rasi ~/.config/rofi
 cp rofi/config.rasi ~/.config/rofi
 echo "     rofi configs installed"
 
+cp scripts/powermenu ~/.config/hypr/scripts/
+
 echo ""
 echo "  Done. Log into Hyprland to get started."
 echo ""
