@@ -1,0 +1,180 @@
+* {
+    font-family: "JetBrains Mono", "Iosevka", monospace;
+    font-size: 14px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(40, 40, 40, 0.92);
+    color: #ebdbb2;
+    border-radius: 12px;
+}
+
+window#waybar > box {
+    padding: 0 6px;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    padding: 0 4px;
+}
+
+#workspaces,
+#clock,
+#cpu,
+#memory,
+#backlight,
+#pulseaudio,
+#network,
+#bluetooth,
+#battery,
+#tray,
+#custom-power {
+    padding: 0 12px;
+    margin: 5px 3px;
+    background-color: #3c3836;
+    color: #ebdbb2;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+#workspaces button {
+    padding: 0 7px;
+    color: #a89984;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+}
+
+#workspaces button:hover {
+    background: #504945;
+    color: #ebdbb2;
+    box-shadow: none;
+}
+
+#workspaces button.active {
+    background: #504945;
+    color: #fabd2f;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    color: #fb4934;
+}
+
+#clock {
+    color: #fabd2f;
+    font-weight: bold;
+}
+
+#cpu {
+    color: #8ec07c;
+}
+
+#cpu.warning {
+    color: #fe8019;
+}
+
+#cpu.critical {
+    color: #fb4934;
+}
+
+#memory {
+    color: #83a598;
+}
+
+#memory.warning {
+    color: #fe8019;
+}
+
+#memory.critical {
+    color: #fb4934;
+}
+
+#backlight {
+    color: #fabd2f;
+}
+
+#pulseaudio {
+    color: #d3869b;
+}
+
+#pulseaudio.muted {
+    color: #a89984;
+}
+
+#network {
+    color: #83a598;
+}
+
+#network.disconnected {
+    color: #a89984;
+}
+
+#bluetooth {
+    color: #83a598;
+}
+
+#bluetooth.disabled,
+#bluetooth.off {
+    color: #a89984;
+}
+
+#bluetooth.connected {
+    color: #b8bb26;
+}
+
+#battery {
+    color: #b8bb26;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #8ec07c;
+}
+
+#battery.warning:not(.charging) {
+    color: #fe8019;
+}
+
+#battery.critical:not(.charging) {
+    color: #fb4934;
+    animation-name: blink;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to {
+        color: #ebdbb2;
+    }
+}
+
+#tray {
+    background-color: #3c3836;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    color: #fb4934;
+}
+
+#custom-power {
+    color: #fb4934;
+    font-size: 16px;
+    padding: 0 14px;
+}
+
+#custom-power:hover {
+    background-color: #fb4934;
+    color: #282828;
+}
