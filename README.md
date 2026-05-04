@@ -177,3 +177,10 @@ font_family JetBrains Mono Nerd Font
 ## Fish
 
 Config at `~/.config/fish/config.fish`. Runs `fastfetch` on every interactive shell open.
+
+## Previews
+
+| | |
+|---|---|
+| ![simplistic](img/simplistic.png) | ![lady](img/lady.png) |
+| ![town](img/town.png) | ![skeleton](img/skeleton.png) |
