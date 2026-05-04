@@ -13,6 +13,18 @@ Hyprland + Waybar setup with a Gruvbox dark theme.
 
 ---
 
+## Installer script
+In order to install the dots,
+run these commands:
+```
+git clone https://github.com/syyy10/gruvbox-hypr
+cd gruvbox-hypr
+./install.sh
+```
+Then just login to hyprland and your ready.
+
+
+
 ## Structure
 
 ```
