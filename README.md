@@ -1,4 +1,4 @@
-# dotfiles
+# Gruvbox Dots
 
 Hyprland + Waybar setup with a Gruvbox dark theme.
 
@@ -11,6 +11,7 @@ Hyprland + Waybar setup with a Gruvbox dark theme.
 ├── hypr/
 │   ├── hyprland.conf
 │   ├── hyprlock.conf
+│   ├── hypridle.conf
 │   ├── lock.sh
 │   ├── wallpaper.sh
 │   ├── powermenu.sh
@@ -58,6 +59,7 @@ Config lives at `~/.config/hypr/hyprland.conf`.
 ```ini
 exec-once = swww-daemon
 exec-once = waybar
+exec-once = hypridle
 ```
 
 **Keybinds**
@@ -77,18 +79,37 @@ input {
 
 ---
 
+## hyprlock
+
+Config at `~/.config/hypr/hyprlock.conf`. Blurs the current wallpaper from `~/.cache/current_wallpaper` and shows a centered clock, date, and password input field in Gruvbox colors.
+
+The date label uses `cmd[update:60000]` syntax to run a shell command and refresh every 60 seconds:
+
+```
+text = cmd[update:60000] date +"%A, %d %B %Y"
+```
+
+If the wallpaper cache file doesn't exist yet, set `path` to a direct image path as a fallback.
+
+---
+
+## hypridle
+
+Config at `~/.config/hypr/hypridle.conf`.
+
+| Timeout | Action |
+|---|---|
+| 10 min | Lock screen via `lock.sh` |
+| 11 min | Turn display off |
+| Resume | Turn display back on |
+
+Also locks immediately before the system sleeps via `before_sleep_cmd`.
+
+---
+
 ## lock.sh
 
 Runs `hyprlock`. Guards against duplicate instances with `pgrep` so hitting the bind twice won't stack lockers.
-
-To auto-lock on idle, add to `hypridle.conf`:
-
-```ini
-listener {
-    timeout = 300
-    on-timeout = ~/.config/hypr/lock.sh
-}
-```
 
 ---
 
